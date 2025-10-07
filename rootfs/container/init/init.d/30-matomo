@@ -1,0 +1,27 @@
+#!/command/with-contenv bash
+# SPDX-FileCopyrightText: © 2025 Nfrastack <code@nfrastack.com>
+#
+# SPDX-License-Identifier: MIT
+
+source /container/base/functions/container/init
+prepare_service
+SERVICE_NAME="matomo"
+
+check_service_initialized init 20-php-fpm
+
+sanity_db
+db_ready mariadb
+
+if [ ! -f "${NGINX_WEBROOT}"/index.php ]; then
+        print_warn "No Matomo Installation Found, Installing..."
+        mkdir -p "${NGINX_WEBROOT}"
+        curl -ssL https://builds.matomo.org/piwik-latest.tar.gz | tar xfz - --strip 1 -C "${NGINX_WEBROOT}"
+        curl -ssL https://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz | gunzip -c > "${NGINX_WEBROOT}"/misc/GeoIPCity.dat
+        print_info "Install Complete"
+fi
+
+echo "*/${CRON_PERIOD} * * * * sudo -u ${NGINX_USER} TZ=${TIMEZONE} php ${NGINX_WEBROOT}/console core:archive >/dev/null 2>&1" | silent tee /container/cron/matomo_archive_reports
+echo "alias console='cd ${NGINX_WEBROOT}; sudo -u ${NGINX_USER} php ./console'" | silent tee -a /root/.bashrc
+chown -R "${NGINX_USER}":"${NGINX_GROUP}" "${NGINX_WEBROOT}"
+
+liftoff

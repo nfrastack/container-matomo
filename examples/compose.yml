@@ -1,7 +1,7 @@
 services:
 
   matomo-app:
-    image: tiredofit/matomo
+    image: docker.io/nfrastack/matomo
     container_name: matomo-app
     links:
       - matomo-db
@@ -11,10 +11,9 @@ services:
       - traefik.http.services.matomo.loadbalancer.server.port=80
     volumes:
       - ./data:/www/html
-      - ./logs/unit:/www/logs
+      - ./logs/:/www/logs
     environment:
       - TIMEZONE=America/Vancouver
-      - CONTAINER_NAME=matomo-app
 
       - DB_HOST=matomo-db
       - DB_NAME=matomo
@@ -28,7 +27,7 @@ services:
     restart: always
 
   matomo-db:
-    image: tiredofit/mariadb:10.11
+    image: docker.io/tiredofit/mariadb:10.11
     container_name: matomo-db
     volumes:
       - /var/local/db/matomo:/var/lib/mysql
@@ -41,23 +40,20 @@ services:
       - DB_USER=matomo
       - DB_PASS=userpassword
     networks:
-    - internal
-    - services
+      - services
     restart: always
 
   matomo-db-redis:
-    image: tiredofit/redis:latest
+    image: docker.io/nfrastack/redis:latest
     container_name: matomo-db-redis
     environment:
       - TIMEZONE=America/Vancouver
-      - CONTAINER_NAME=matomo-db-redis
     networks:
-      - internal
       - services
     restart: always
 
   matomo-db-backup:
-    image: tiredofit/db-backup
+    image: docker.io/tiredofit/db-backup
     container_name: matomo-db-backup
     links:
       - matomo-db
@@ -66,14 +62,14 @@ services:
     environment:
       - TIMEZONE=America/Vancouver
       - CONTAINER_NAME=matomo-db-backup
-      - DB_HOST=matomo-db
-      - DB_TYPE=mysql
-      - DB_NAME=matomo
-      - DB_USER=matomo
-      - DB_PASSWORD=userpassword
+      - DB01_HOST=matomo-db
+      - DB01_TYPE=mysql
+      - DB01_NAME=matomo
+      - DB01_USER=matomo
+      - DB01_PASS=userpassword
       - DB01_BACKUP_INTERVAL=1440
       - DB01_BACKUP_BEGIN=0000
-      - DB_CLEANUP_TIME=8640
+      - DB01_CLEANUP_TIME=8640
     networks:
       - services
     restart: always

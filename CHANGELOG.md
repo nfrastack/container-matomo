@@ -1,3 +1,9 @@
+## 5.1.0pre 2025-07-12 <code at nfrastack dot com>
+
+   ### Added
+      - Switch to nfrastack/nginx-php-fpm
+      - PHP 8.4
+
 ## 5.0.0 2025-07-12 <dave at tiredofit dot ca>
 
    ### Added
@@ -171,7 +177,7 @@
 * Cleanup Code to work better with the nginx-php-fpm base images
 * Fix some Downloading errors
 * Now tracks latest Piwik version
-    
+
 ## 3.0 2018-02-01 <dave at tiredofit dot ca>
 
 * Change to Matomo
@@ -217,7 +223,7 @@
 ## 1.1 2017-01-05 <dave at tiredofit dot ca>
 
 * Re-base to Alpine:edge
-* PHP7 
+* PHP7
 * Nginx backend instead of FPM
 * PECL geoip presently not working
 
