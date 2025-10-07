@@ -5,19 +5,45 @@ PROCESS_NAME="matomo"
 
 check_service_initialized init 20-php-fpm
 
+cat <<EOF
+
+*************************************************************************************
+*                                                                                   *
+*                    END OF LIFE NOTICE AUGUST 18, 2025                             *
+*                               tiredofit/matomo                                    *
+*                                                                                   *
+* This image is no longer maintained as of and will not receive updates.            *
+*                                                                                   *
+* A successor image is available at:                                                *
+*                                                                                   *
+* Repository | Documentation:                                                       *
+*   - https://github.com/nfrastack/container-matomo                                 *
+*                                                                                   *
+* Image Registries:                                                                 *
+*   - https://hub.docker.com/r/nfrastack/matomo                                     *
+*   - https://github.com/nfrastack/container-matomo/pkgs/container/container-matomo *
+*                                                                                   *
+* Please visit https://nfrastack.com for more information.                          *
+*                                                                                   *
+*************************************************************************************
+
+EOF
+
+sleep 15
+
 sanity_db
 db_ready mariadb
 
-if [ ! -f "${NGINX_WEBROOT}"/index.php ]; then
+if [ ! -f "${matomo_WEBROOT}"/index.php ]; then
         print_warn "No Matomo Installation Found, Installing..."
-        mkdir -p "${NGINX_WEBROOT}"
-        curl https://builds.matomo.org/piwik-latest.tar.gz | tar xfz - --strip 1 -C "${NGINX_WEBROOT}"
-        curl https://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz | gunzip -c > "${NGINX_WEBROOT}"/misc/GeoIPCity.dat
+        mkdir -p "${matomo_WEBROOT}"
+        curl https://builds.matomo.org/piwik-latest.tar.gz | tar xfz - --strip 1 -C "${matomo_WEBROOT}"
+        curl https://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz | gunzip -c > "${matomo_WEBROOT}"/misc/GeoIPCity.dat
         print_info "Install Complete"
 fi
 
-echo "*/${CRON_PERIOD} * * * * sudo -u ${NGINX_USER} TZ=${TIMEZONE} php ${NGINX_WEBROOT}/console core:archive >/dev/null 2>&1" > /assets/cron/matomo_archive_reports
-echo "alias console='cd ${NGINX_WEBROOT}; sudo -u ${NGINX_USER} php ./console'" >> /root/.bashrc
-chown -R "${NGINX_USER}":"${NGINX_GROUP}" "${NGINX_WEBROOT}"
+echo "*/${CRON_PERIOD} * * * * sudo -u ${matomo_USER} TZ=${TIMEZONE} php ${matomo_WEBROOT}/console core:archive >/dev/null 2>&1" > /assets/cron/matomo_archive_reports
+echo "alias console='cd ${matomo_WEBROOT}; sudo -u ${matomo_USER} php ./console'" >> /root/.bashrc
+chown -R "${matomo_USER}":"${matomo_GROUP}" "${matomo_WEBROOT}"
 
 liftoff
