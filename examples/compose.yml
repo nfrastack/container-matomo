@@ -27,10 +27,10 @@ services:
     restart: always
 
   matomo-db:
-    image: docker.io/tiredofit/mariadb:10.11
+    image: docker.io/nfrastack/mariadb:11.8
     container_name: matomo-db
     volumes:
-      - /var/local/db/matomo:/var/lib/mysql
+      - /var/local/db/matomo:/data
     environment:
       - TIMEZONE=America/Vancouver
       - CONTAINER_NAME=matomo-db
