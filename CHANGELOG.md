@@ -3,6 +3,7 @@
    ### Added
       - Switch to nfrastack/nginx-php-fpm
       - PHP 8.4
+      - Alpine 3.23
 
 ## 5.0.0 2025-07-12 <dave at tiredofit dot ca>
 
