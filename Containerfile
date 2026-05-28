@@ -41,6 +41,7 @@ RUN echo "" && \
                     20-php-fpm/PHP_MODULE_ENABLE_SIMPLEXML=TRUE \
                     20-php-fpm/PHP_MODULE_ENABLE_XML=TRUE \
                     20-php-fpm/PHP_MODULE_ENABLE_XMLREADER=TRUE \
+                    20-php-fpm/PHP_MODULE_OPCACHE_JIT_BUFFER_SIZE=0 \
                " && \
     source /container/base/functions/container/build && \
     container_build_log image && \

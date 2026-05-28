@@ -11,6 +11,7 @@ check_service_initialized init 20-php-fpm
 
 sanity_db
 db_ready mariadb
+
 if [ -z "${MATOMO_VERSION}" ]; then
     MATOMO_VERSION="latest"
 fi
