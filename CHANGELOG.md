@@ -1,9 +1,10 @@
-## 5.1.0pre 2025-07-12 <code at nfrastack dot com>
+## 5.1.0 2026-07-29 <code at nfrastack dot com>
 
    ### Added
       - Switch to nfrastack/nginx-php-fpm
       - PHP 8.4
-      - Alpine 3.23
+      - Alpine 3.24
+
 
 ## 5.0.0 2025-07-12 <dave at tiredofit dot ca>
 
