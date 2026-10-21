@@ -1,3 +1,11 @@
+## 5.1.1 2026-10-21 <code at nfrastack dot com>
+
+   ### Added
+      - Switch to Alpine 3.24
+      - PHP 8.5
+      - Pin to nginx-php-fpm:8.1.6
+
+
 ## 5.1.0 2026-07-29 <code at nfrastack dot com>
 
    ### Added

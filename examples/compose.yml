@@ -53,7 +53,7 @@ services:
     restart: always
 
   matomo-db-backup:
-    image: docker.io/tiredofit/db-backup
+    image: docker.io/nfrastack/db-backup
     container_name: matomo-db-backup
     links:
       - matomo-db
@@ -62,6 +62,9 @@ services:
     environment:
       - TIMEZONE=America/Vancouver
       - CONTAINER_NAME=matomo-db-backup
+
+      - STATS_ENABLED=TRUE
+
       - DB01_HOST=matomo-db
       - DB01_TYPE=mysql
       - DB01_NAME=matomo
